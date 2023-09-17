@@ -1,0 +1,562 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "c3f3414c-f82b-4feb-ac8b-2ccd3b41feb1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import requests\n",
+    "from bs4 import BeautifulSoup as bs\n",
+    "from urllib.request import urlopen as uReq\n",
+    "import logging"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "b18f1ef8-4bbe-48ee-a882-077d7ba10175",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "f_url=\"https://www.flipkart.com/search?q=\" + \"iphone13\" "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "eeef3aa6-2e4f-4224-828d-34ab7cad6004",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'https://www.flipkart.com/search?q=iphone13'"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "f_url\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "90ab79e8-896b-45da-b79a-54462ce5e52b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "furl_open=uReq(f_url)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "80078f44-de5f-4d4e-89a8-303aa68583a5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "furl_read=furl_open.read()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "73212d7a-44a8-419a-83db-04f0e8fb48c4",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'https://www.flipkart.com/search?q=apple-iphone-15-black-256-gb/p/itm6f0727e3e3b52?pid=MOBGTAGPSMHFKHT5&lid=LSTMOBGTAGPSMHFKHT5MRB8QV&marketplace=FLIPKART&q=iphone15&store=tyy%2F4io&srno=s_1_1&otracker=search&fm=organic&iid=9f9e0186-238c-41e6-a979-a82cd3322ecc.MOBGTAGPSMHFKHT5.SEARCH&ppt=None&ppn=None&ssid=uhhdch5n7k0000001694911793649&qH=1827ac0d826493c5'"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\"https://www.flipkart.com/search?q=\"+\"apple-iphone-15-black-256-gb/p/itm6f0727e3e3b52?pid=MOBGTAGPSMHFKHT5&lid=LSTMOBGTAGPSMHFKHT5MRB8QV&marketplace=FLIPKART&q=iphone15&store=tyy%2F4io&srno=s_1_1&otracker=search&fm=organic&iid=9f9e0186-238c-41e6-a979-a82cd3322ecc.MOBGTAGPSMHFKHT5.SEARCH&ppt=None&ppn=None&ssid=uhhdch5n7k0000001694911793649&qH=1827ac0d826493c5\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "dd33ccdd-baaf-4878-b72d-7d7441a8bbff",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'https://www.flipkart.com/search?q=apple-iphone-15-black-256-gb/p/itm6f0727e3e3b52?pid=MOBGTAGPSMHFKHT5&lid=LSTMOBGTAGPSMHFKHT5MRB8QV&marketplace=FLIPKART&q=iphone15&store=tyy%2F4io&srno=s_1_1&otracker=search&fm=organic&iid=9f9e0186-238c-41e6-a979-a82cd3322ecc.MOBGTAGPSMHFKHT5.SEARCH&ppt=None&ppn=None&ssid=uhhdch5n7k0000001694911793649&qH=1827ac0d826493c5'"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\"https://www.flipkart.com/search?q=\"+\"apple-iphone-15-black-256-gb/p/itm6f0727e3e3b52?pid=MOBGTAGPSMHFKHT5&lid=LSTMOBGTAGPSMHFKHT5MRB8QV&marketplace=FLIPKART&q=iphone15&store=tyy%2F4io&srno=s_1_1&otracker=search&fm=organic&iid=9f9e0186-238c-41e6-a979-a82cd3322ecc.MOBGTAGPSMHFKHT5.SEARCH&ppt=None&ppn=None&ssid=uhhdch5n7k0000001694911793649&qH=1827ac0d826493c5\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "02fb16c3-173c-42f5-809c-0967fbb2cece",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "html_file=bs(furl_read,'html.parser')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "87d5437e-7d78-45c3-b410-91e3a9035c00",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'https://www.flipkart.com/search?q=apple-iphone-15-black-256-gb/p/itm6f0727e3e3b52?pid=MOBGTAGPSMHFKHT5&lid=LSTMOBGTAGPSMHFKHT5MRB8QV&marketplace=FLIPKART&q=iphone15&store=tyy%2F4io&srno=s_1_1&otracker=search&fm=organic&iid=9f9e0186-238c-41e6-a979-a82cd3322ecc.MOBGTAGPSMHFKHT5.SEARCH&ppt=None&ppn=None&ssid=uhhdch5n7k0000001694911793649&qH=1827ac0d826493c5'"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\"https://www.flipkart.com/search?q=\"+\"apple-iphone-15-black-256-gb/p/itm6f0727e3e3b52?pid=MOBGTAGPSMHFKHT5&lid=LSTMOBGTAGPSMHFKHT5MRB8QV&marketplace=FLIPKART&q=iphone15&store=tyy%2F4io&srno=s_1_1&otracker=search&fm=organic&iid=9f9e0186-238c-41e6-a979-a82cd3322ecc.MOBGTAGPSMHFKHT5.SEARCH&ppt=None&ppn=None&ssid=uhhdch5n7k0000001694911793649&qH=1827ac0d826493c5\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a5a711fe-fcc1-456f-81a4-a63018a2d8ea",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "597d5092-4295-4259-a784-07d017a765ce",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bigbox=html_file.findAll(\"div\" , {\"class\":\"_1AtVbE col-12-12\"})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "d73bcdbd-199a-44ae-958a-22496470d77c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "del bigbox[0:3]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "95368fa0-eb8a-48dc-9aeb-51b9f72babb8",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "28"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "len(bigbox)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "89e5e976-a24b-441e-9623-27cbd577ef83",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "productlink=\"https://www.flipkart.com\"+bigbox[3].div.div.div.a[\"href\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "f66f32bc-0676-45be-87ba-ad56b5d583ec",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "product_req=requests.get(productlink)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "d9435302-bab7-4884-a018-9b145ae42d01",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'https://www.flipkart.com/apple-iphone-13-starlight-128-gb/p/itmc9604f122ae7f?pid=MOBG6VF5ADKHKXFX&lid=LSTMOBG6VF5ADKHKXFXZVXGTL&marketplace=FLIPKART&q=iphone13&store=tyy%2F4io&srno=s_1_4&otracker=search&fm=organic&iid=11fd3e6f-4c5d-41bd-af3c-8bc22dc6ab1b.MOBG6VF5ADKHKXFX.SEARCH&ppt=None&ppn=None&ssid=s4acv0oakw0000001694960233002&qH=7d4afaedfc628b80'"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "productlink"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "5c1bc038-dca6-497e-9a48-4b465ee13e91",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "html_product=bs(product_req.text,\"html.parser\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "ef7295b7-806e-45cc-b6e8-b960afa72d5f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "comment_box=html_product.find_all(\"div\",{\"class\":\"_16PBlm\"})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "d52a3681-759e-4425-9e60-c3303bb1118e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "11"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "len(comment_box)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "8738a887-59f0-434d-a6f9-1f429286c981",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'Ashish  Kumar'"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "comment_box[0].div.div.find_all('p',{\"class\":\"_2sc7ZR _2V5EHH\"})[0].text"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "d7b0c71a-dd8d-4366-8091-24820da770e7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Ashish  Kumar\n",
+      "Shivang Palyal\n",
+      "Srinivash Bhoi\n",
+      "Badri Bishal  Pratihari \n",
+      "Ajay Kr\n",
+      "Peris Kumar Bhagat\n",
+      "Flipkart Customer\n",
+      "Prasenjit Bar\n",
+      "Tulasiram SABBAVARAPU\n",
+      "Flipkart Customer\n"
+     ]
+    },
+    {
+     "ename": "AttributeError",
+     "evalue": "'NoneType' object has no attribute 'div'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAttributeError\u001b[0m                            Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[25], line 2\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[38;5;28;01mfor\u001b[39;00m i \u001b[38;5;129;01min\u001b[39;00m comment_box:\n\u001b[0;32m----> 2\u001b[0m     \u001b[38;5;28mprint\u001b[39m(\u001b[43mi\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241m.\u001b[39mfind_all(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mp\u001b[39m\u001b[38;5;124m'\u001b[39m,{\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mclass\u001b[39m\u001b[38;5;124m\"\u001b[39m:\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124m_2sc7ZR _2V5EHH\u001b[39m\u001b[38;5;124m\"\u001b[39m})[\u001b[38;5;241m0\u001b[39m]\u001b[38;5;241m.\u001b[39mtext)\n",
+      "\u001b[0;31mAttributeError\u001b[0m: 'NoneType' object has no attribute 'div'"
+     ]
+    }
+   ],
+   "source": [
+    "for i in comment_box:\n",
+    "    print(i.div.div.find_all('p',{\"class\":\"_2sc7ZR _2V5EHH\"})[0].text)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "38df1537-a607-4dcf-b873-c2ec22f2cc78",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'_3LWZlK _1BLPMq'"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\"_3LWZlK _1BLPMq\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "87021ec6-2760-4a17-8e82-9d73c4b042f2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'5'"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "comment_box[0].div.div.div.div.text"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "8eaccdb0-3935-4282-805a-872aab8db47c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "5\n",
+      "5\n",
+      "5\n",
+      "5\n",
+      "5\n",
+      "5\n",
+      "5\n",
+      "4\n",
+      "5\n",
+      "5\n"
+     ]
+    },
+    {
+     "ename": "AttributeError",
+     "evalue": "'NoneType' object has no attribute 'div'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAttributeError\u001b[0m                            Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[29], line 2\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[38;5;28;01mfor\u001b[39;00m i \u001b[38;5;129;01min\u001b[39;00m comment_box:\n\u001b[0;32m----> 2\u001b[0m     \u001b[38;5;28mprint\u001b[39m(\u001b[43mi\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241m.\u001b[39mdiv\u001b[38;5;241m.\u001b[39mdiv\u001b[38;5;241m.\u001b[39mtext)\n",
+      "\u001b[0;31mAttributeError\u001b[0m: 'NoneType' object has no attribute 'div'"
+     ]
+    }
+   ],
+   "source": [
+    "for i in comment_box:\n",
+    "    print(i.div.div.div.div.text)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "9567bf83-e6fe-4ad1-87f6-f16d479d28e7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'Wonderful'"
+      ]
+     },
+     "execution_count": 30,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "comment_box[0].div.div.div.p.text"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "88850ae5-584b-4c89-bb5e-6820c220fffe",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Wonderful\n",
+      "Classy product\n",
+      "Perfect product!\n",
+      "Perfect product!\n",
+      "Worth every penny\n",
+      "Mind-blowing purchase\n",
+      "Terrific\n",
+      "Nice product\n",
+      "Just wow!\n",
+      "Excellent\n"
+     ]
+    },
+    {
+     "ename": "AttributeError",
+     "evalue": "'NoneType' object has no attribute 'div'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAttributeError\u001b[0m                            Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[31], line 2\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[38;5;28;01mfor\u001b[39;00m i \u001b[38;5;129;01min\u001b[39;00m comment_box:\n\u001b[0;32m----> 2\u001b[0m     \u001b[38;5;28mprint\u001b[39m(\u001b[43mi\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241m.\u001b[39mdiv\u001b[38;5;241m.\u001b[39mp\u001b[38;5;241m.\u001b[39mtext)\n",
+      "\u001b[0;31mAttributeError\u001b[0m: 'NoneType' object has no attribute 'div'"
+     ]
+    }
+   ],
+   "source": [
+    "for i in comment_box:\n",
+    "    print(i.div.div.div.p.text)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "341e4c07-be1d-4805-8639-bb807f9e12bc",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'Just amazing'"
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "comment_box[0].div.div.find_all(\"div\",{\"class\":''})[0].div.text"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "ef956dd2-2d1e-4965-83c1-67f314672524",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Just amazing\n",
+      "This is awosome .. camera is best . Here some photos i m sharing with you guys ..\n",
+      "Pros-rear Camera is awesome.double speaker sound equal loud and base is superb display superb. Design also good.Battery back up superb.Cons-front camera is good not awesomeAfter switching from android you feel one minus point is the display notch .\n",
+      "Love this phone..... 😍\n",
+      "Awesome camera..I m love  it\n",
+      "Great performance 🥰\n",
+      "Happy to have this phone\n",
+      "Best phone for day to day use and photography/videography.\n",
+      "Best phone in recent times I have used in my life\n",
+      "Nice Phone\n"
+     ]
+    },
+    {
+     "ename": "AttributeError",
+     "evalue": "'NoneType' object has no attribute 'div'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAttributeError\u001b[0m                            Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[35], line 2\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[38;5;28;01mfor\u001b[39;00m i \u001b[38;5;129;01min\u001b[39;00m comment_box:\n\u001b[0;32m----> 2\u001b[0m     \u001b[38;5;28mprint\u001b[39m(\u001b[43mi\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdiv\u001b[49m\u001b[38;5;241m.\u001b[39mfind_all(\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mdiv\u001b[39m\u001b[38;5;124m\"\u001b[39m,{\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mclass\u001b[39m\u001b[38;5;124m\"\u001b[39m:\u001b[38;5;124m'\u001b[39m\u001b[38;5;124m'\u001b[39m})[\u001b[38;5;241m0\u001b[39m]\u001b[38;5;241m.\u001b[39mdiv\u001b[38;5;241m.\u001b[39mtext)\n",
+      "\u001b[0;31mAttributeError\u001b[0m: 'NoneType' object has no attribute 'div'"
+     ]
+    }
+   ],
+   "source": [
+    "for i in comment_box:\n",
+    "    print(i.div.div.find_all(\"div\",{\"class\":''})[0].div.text)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d24f4624-d41c-4620-a775-6d0562c6b169",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
